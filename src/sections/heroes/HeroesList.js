@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import { View, Text, FlatList, Button } from 'react-native'
 import axios from 'axios'
 
+import HeroesCell from './HeroesCell'
+
 export default class HeroesList extends Component {
 
     constructor(props) {
@@ -23,31 +25,35 @@ export default class HeroesList extends Component {
 
         const fetchUrl = '/characters?apikey=3416d75bb54553bf672d77b8ef93275d'
 
-        axios.get(fetchUrl).then( response => {
+        axios.get(fetchUrl).then(response => {
 
             console.log(response)
-            if(response.data){
-                this.setState({list: response.data.data.results})
+            if (response.data) {
+                this.setState({ list: response.data.data.results })
             }
-            else 
-                reject( response )
+            else
+                reject(response)
 
-        }).catch( error => {
-            reject( error )
+        }).catch(error => {
+            reject(error)
         });
 
 
     }
 
+    onSelect(heroe) {
+        console.log("onSeeeeeelect")
+        this.setState({selected: heroe.name})
+    }
+
+
+
     renderItem(item) {
         return (
-            <View style={{ height: 200, backgroundColor: 'grey', marginVertical: 10 }}>
-                <Text>{item.name}</Text>
-                <Button
-                    title='Selecciona Heroe'
-                    onPress={() => this.setState({ selected: item.name })}
-                />
-            </View>
+            <HeroesCell
+                item = {item}
+                onSelect = { (v) => this.onSelect(v) }
+            />
         )
     }
 
