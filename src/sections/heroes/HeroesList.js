@@ -1,10 +1,14 @@
 import React, { Component } from 'react'
 import { View, Text, FlatList, Button } from 'react-native'
-import axios from 'axios'
+
+import * as webservices from '../../webservices/webservices'
+
+// Redux
+import { connect } from 'react-redux'
 
 import HeroesCell from './HeroesCell'
 
-export default class HeroesList extends Component {
+class HeroesList extends Component {
 
     constructor(props) {
         super(props)
@@ -15,27 +19,24 @@ export default class HeroesList extends Component {
     }
 
     componentWillMount() {
-        //mock
-        //this.setState({list: ['Adam destiny', '3D-Man', 'Abbobination', 'Abbys'] })
 
-        // AXIOS SETUP
-        axios.defaults.baseURL = 'https://gateway.marvel.com/v1/public/'
-        axios.defaults.headers.post['Content-Type'] = 'application/json'
-        axios.defaults.headers.common['Referer'] = 'http://dccomics.com'
-
-        const fetchUrl = '/characters?apikey=3416d75bb54553bf672d77b8ef93275d'
-
-        axios.get(fetchUrl).then(response => {
-
-            console.log(response)
+        webservices.configureAxios()
+        
+        webservices.fetchCharacters(webservices.constants.FETCH_CHARACTERS_URL)
+       .then(response => {
+             console.log(response)
             if (response.data) {
-                this.setState({ list: response.data.data.results })
+                console.log(response.data.results)
+                this.setState({ list: response.data.results })
             }
-            else
-                reject(response)
+            else {
+
+            }
+
 
         }).catch(error => {
-            reject(error)
+            console.log("Error: " + error)
+
         });
 
 
@@ -71,3 +72,17 @@ export default class HeroesList extends Component {
         )
     }
 }
+
+const mapStateToProps = (state) => {
+    return {
+       
+    }
+}
+
+const mapDispatchToProps = (dispatch, props) => {
+    return {
+        
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(HeroesList)
