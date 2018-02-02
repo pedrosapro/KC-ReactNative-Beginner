@@ -14,12 +14,13 @@ class HeroesList extends Component {
     componentWillMount() {
 
         this.props.fetchHeroesList()
-       
+
     }
 
     onSelect(heroe) {
         console.log("onSeeeeeelect")
-        this.setState({ selected: heroe.name })
+
+        this.props.updateHeroeOnSelect(heroe)
     }
 
 
@@ -34,10 +35,11 @@ class HeroesList extends Component {
     }
 
     render() {
-        const nombre = this.props.selected ? this.props.selected : ''
+        const selected = this.props.selected? this.props.selected: ''
+        const name = selected.name? selected.name : ''
         return (
             <View>
-                <Text>{'Héroe seleccionado: ' + nombre}</Text>
+                <Text>{'Héroe seleccionado: ' + name}</Text>
                 <FlatList
                     data={this.props.list}
                     renderItem={({ item }) => this.renderItem(item)}
@@ -52,6 +54,7 @@ const mapStateToProps = (state) => {
     console.log("mapStateToProps")
     return {
         list: state.heroes.list,
+        selected: state.heroes.selected,
     }
 }
 
@@ -60,8 +63,11 @@ const mapDispatchToProps = (dispatch, props) => {
         fetchHeroesList: () => {
             console.log("mapDispatchToProps")
             dispatch(HeroesActions.fetchHeroesList())
-        }
+        },
 
+        updateHeroeOnSelect: (heroe) => {
+            dispatch(HeroesActions.updateHeroeOnSelect(heroe))
+        }
     }
 }
 

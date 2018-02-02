@@ -3,10 +3,15 @@ import * as webservices from '../../webservices/webservices'
 
 // Función que devuelve el action que actualiza el reducer
 function updateHeroesList(value) { 
-    console.log("updateHeroesList: " + value)
-
     return {
         type: types.HEROES_UPDATE_LIST,
+        value: value
+    }
+}
+
+function updateHeroe(value) {
+    return {
+        type: types.HEROE_UPDATE,
         value: value
     }
 }
@@ -32,6 +37,14 @@ export function fetchHeroesList() {
 
         });
 
+    }
+
+}
+
+export function updateHeroeOnSelect (heroe) {
+
+    return (dispatch, getState) => {
+        dispatch(updateHeroe(heroe))
     }
 
 }
