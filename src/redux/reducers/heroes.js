@@ -8,7 +8,7 @@ const initialState = {
 export default function reducer(state = initialState, action = {}) {   
     switch (action.type) {
 
-        case 'Define a TYPE': 
+        case types.HEROES_UPDATE_LIST: 
             return {
                 ...state,
                 list: action.value,

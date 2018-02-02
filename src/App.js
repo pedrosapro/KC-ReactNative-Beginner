@@ -2,6 +2,9 @@
 import React, { Component } from 'react';
 import { Action, Scene, Router} from 'react-native-router-flux'
 
+import * as webservices from './webservices/webservices'
+
+
 import HeroesList from './sections/heroes/HeroesList'
 
 /****************** REDUX *******************/
@@ -19,6 +22,11 @@ const store = createStore( // Creamos el store con:
 
 
 export default class App extends Component {
+
+  componentWillMount() {
+    webservices.configureAxios()
+  }
+
   render() {
     return (
       <Provider store={store}>
