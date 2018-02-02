@@ -1,11 +1,14 @@
 
 import React, { Component } from 'react';
+import { View, StyleSheet, StatusBar } from 'react-native';
+
 import { Action, Scene, Router} from 'react-native-router-flux'
 
 import * as webservices from './webservices/webservices'
-
+import {Colors} from './commons'
 
 import HeroesList from './sections/heroes/HeroesList'
+import HeroDetail from './sections/hero/HeroDetail'
 
 /****************** REDUX *******************/
 import { createStore, applyMiddleware, combineReducers } from 'redux'
@@ -25,6 +28,8 @@ export default class App extends Component {
 
   componentWillMount() {
     webservices.configureAxios()
+    StatusBar.setBarStyle('light-content') // iOS StatusBar light style
+
   }
 
   render() {
@@ -35,6 +40,13 @@ export default class App extends Component {
             <Scene
               key={'HeroesList'}
               component={HeroesList}
+              hideNavBar
+            />
+            <Scene
+              key={'HeroDetail'}
+              component={HeroDetail}
+              navigationBarStyle={styles.navBar}
+              navBarButtonColor={'white'}
             />
           </Scene>
         </Router>
@@ -43,3 +55,9 @@ export default class App extends Component {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  navBar: {
+      backgroundColor: Colors.navBar,
+  },
+});
